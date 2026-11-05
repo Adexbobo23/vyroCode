@@ -77,18 +77,19 @@ WSGI_APPLICATION = "vyrobot.wsgi.application"
 ASGI_APPLICATION = "vyrobot.asgi.application"
 
 # Default to SQLite for easy local runs. Swap to PostgreSQL via env for production.
-if os.environ.get("DATABASE_URL"):
-    # Minimal parse for a postgres URL if you want it; otherwise keep SQLite.
-    import dj_database_url  # optional dependency; only needed if DATABASE_URL set
-
-    DATABASES = {"default": dj_database_url.parse(os.environ["DATABASE_URL"])}
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
+# --- Database (PostgreSQL on Render) ----------------------------------------
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "vyrodb_zked",
+        "USER": "vyrodb_zked_user",
+        "PASSWORD": "WXTVMZLnpjYPrOlhTeaHSBteEuGfUf8u",
+        "HOST": "dpg-dbmh8au417fc738sig20-a.oregon-postgres.render.com",
+        "PORT": "5432",
+        "CONN_MAX_AGE": 600,
+        "OPTIONS": {"sslmode": "require"},
     }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
